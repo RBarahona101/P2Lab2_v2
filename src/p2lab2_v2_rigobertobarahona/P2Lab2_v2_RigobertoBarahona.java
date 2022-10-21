@@ -31,7 +31,9 @@ static Random r = new Random();
                         Scanner lea = new Scanner(System.in);
                         String name = lea.nextLine();
                         System.out.print("Caracter: ");
-                        char caracter = lea.next().charAt(0);
+                        String carac = lea.next();
+                        carac = carac.toLowerCase();
+                        char caracter = carac.charAt(0);
                         int victorias = 0;
                         int dinero = 0;
                         ArrayList<Items> items = new ArrayList();
@@ -49,12 +51,14 @@ static Random r = new Random();
                         }
                         if (repeat == true){
                             System.out.println("Repeticion Detectada");
-                        }else{ 
+                        } else {
                             boolean repeat2 = false;
                             System.out.print("Caracter: ");
-                            char caracter = lea.next().charAt(0);
-                            for (int i = 0; i < jugadores.size() ; i++){
-                                if (name.equals(jugadores.get(i).getCaracter() ) ){
+                            String carac = lea.next();
+                            carac = carac.toLowerCase();
+                            char caracter = carac.charAt(0);
+                            for (int i = 0; i < jugadores.size(); i++) {
+                                if (caracter == jugadores.get(i).getCaracter() ){
                                     repeat2 = true;
                                 }
                             }
@@ -84,12 +88,12 @@ static Random r = new Random();
                         carac = carac.toUpperCase();
                         char caracter = carac.charAt(0);
                         System.out.print("Aspecto: ");
-                        Scanner lea = new Scanner(System.in);
-                        String aspecto = lea.nextLine();
+                        String aspecto = lea.next();
                         System.out.print("Audio Normal: ");
                         String audio = lea.next();
                         System.out.print("Audio de Muerte: ");
-                        String muerte = lea.next();
+                        Scanner lea = new Scanner(System.in);
+                        String muerte = lea.nextLine();
                         bots.add( new Bots (velocidad, caracter, aspecto, audio, muerte) );
                         System.out.println("Bot Agregado Exitosamente");
                     }else{
@@ -109,12 +113,12 @@ static Random r = new Random();
                             System.out.println("Repeticion Detectada");
                         }else{
                             System.out.print("Aspecto: ");
-                            Scanner lea = new Scanner(System.in);
-                            String aspecto = lea.nextLine();
+                            String aspecto = lea.next();
                             System.out.print("Audio Normal: ");
                             String audio = lea.next();
                             System.out.print("Audio de Muerte: ");
-                            String muerte = lea.next();
+                            Scanner lea = new Scanner(System.in);
+                            String muerte = lea.nextLine();
                             bots.add( new Bots (velocidad, caracter, aspecto, audio, muerte) );  
                             System.out.println("Bot Agregado Exitosamente");
                         }
@@ -139,7 +143,7 @@ static Random r = new Random();
                         System.out.println("3) Mina - 45");
                         System.out.println("4) Iluminador - 45");
                         System.out.println("5) Detector - 30");
-                        System.out.print("Eligir Item ---" + jugadores.get(index).getName() + " " );
+                        System.out.println("Eligir Item ----- " + jugadores.get(index).getName() + " " );
                         int opcion2 = lea.nextInt();
                         switch(opcion2){
                             case 1: {
@@ -147,6 +151,7 @@ static Random r = new Random();
                                     int dinero = jugadores.get(index).getDinero() - 60;
                                     jugadores.get(index).getItems().add( new Items("Cola") );
                                     jugadores.get(index).setDinero(dinero);
+                                    System.out.println("Cola Agregado");
                                 }else{
                                     System.out.println("No tiene suficiente monedas");
                                 }
@@ -157,6 +162,7 @@ static Random r = new Random();
                                     int dinero = jugadores.get(index).getDinero() - 30;
                                     jugadores.get(index).getItems().add( new Items("Acelerador") );
                                     jugadores.get(index).setDinero(dinero);
+                                    System.out.println("Acelerador Agregado");
                                 }else{
                                     System.out.println("No tiene suficiente monedas");
                                 }
@@ -167,6 +173,7 @@ static Random r = new Random();
                                     int dinero = jugadores.get(index).getDinero() - 45;
                                     jugadores.get(index).getItems().add( new Items("Mina") );
                                     jugadores.get(index).setDinero(dinero);
+                                    System.out.println("Mina Agregada");
                                 }else{
                                     System.out.println("No tiene suficiente monedas");
                                 }
@@ -177,6 +184,7 @@ static Random r = new Random();
                                     int dinero = jugadores.get(index).getDinero() - 45;
                                     jugadores.get(index).getItems().add( new Items("Iluminador") );
                                     jugadores.get(index).setDinero(dinero);
+                                    System.out.println("Iluminador Agregado");
                                 }else{
                                     System.out.println("No tiene suficiente monedas");
                                 }
@@ -187,6 +195,7 @@ static Random r = new Random();
                                     int dinero = jugadores.get(index).getDinero() - 30;
                                     jugadores.get(index).getItems().add( new Items("Detector") );
                                     jugadores.get(index).setDinero(dinero);
+                                    System.out.println("Detector Agregado");
                                 }else{
                                     System.out.println("No tiene suficiente monedas");
                                 }
@@ -225,7 +234,7 @@ static Random r = new Random();
                             boolean juego = true;
                             boolean victory = true;
                             matriz = Fill(matriz);
-                            System.out.println("=========================================");
+                            System.out.println("=============================================================================================");
                             while (juego == true){
                                 matriz = Juego(matriz, jugadores_game, bots_game);
                                 Imprimir(matriz);
@@ -235,7 +244,7 @@ static Random r = new Random();
                                     juego = false;
                                     victory = false;
                                 }
-                                System.out.println("=========================================");
+                                System.out.println("==============================================================================================");
                             }
                             if (victory == false){
                                 System.out.println("Nadie Gano");
@@ -282,38 +291,48 @@ static Random r = new Random();
     }
     public static char [][] Juego (char [][] matriz, ArrayList<Jugador> jugadores_game, ArrayList <Bots> bots_game){
         char [][] temp = matriz;
-        
-        int cont_jug = 0;
-        int cont_bots = 0;
-        int cant_walls = 0+r.nextInt(30);
-        int cont_walls = 0;
-        while (cont_walls < cant_walls){
-            int y = r.nextInt(temp.length);
-            int x = r.nextInt(temp.length);
-            temp[y][x] = 'X';
-            cont_walls++;
-        }
-        while (cont_jug < jugadores_game.size() ){
-            int y = r.nextInt(temp.length);
-            int x = r.nextInt(temp.length);
-            temp [y][x] = jugadores_game.get(cont_jug).getCaracter();
-            cont_jug++;
-        }
-        while (cont_bots < bots_game.size() ){
-            int y = r.nextInt(temp.length);
-            int x = r.nextInt(temp.length);
-            if (temp [y][x] != ' ' && temp [y][x] != 'X'){
-                char analysis = temp[y][x];
-                for (int i = 0; i < jugadores_game.size() ; i++) {
-                    if (analysis == jugadores_game.get(i).getCaracter() ){
-                        System.out.println(bots_game.get(cont_bots).getCaracter() + " ha Eliminado " + jugadores_game.get(i).getName() );
-                        System.out.println(bots_game.get(cont_bots).getMuerte() );
-                        jugadores_game.remove(i);
-                    }
+        for (int i = 0; i < temp.length; i++){
+            for (int j = 0; j < temp[i].length; j++){
+                if (temp[i][j] != 'X'){
+                    temp[i][j] = ' ';
                 }
             }
-            temp [y][x] = bots_game.get(cont_bots).getCaracter();
-            cont_bots++;
+        }
+        int cont_jug = 0;
+        int cont_bots = 0;
+        while (cont_jug < jugadores_game.size() ){
+            boolean pared = true;
+            while (pared == true){
+                int y = r.nextInt(temp.length);
+                int x = r.nextInt(temp.length);
+                if (temp[y][x] != 'X'){
+                    pared = false;
+                    temp [y][x] = jugadores_game.get(cont_jug).getCaracter();
+                    cont_jug++;
+                }
+            }
+        }
+        while (cont_bots < bots_game.size() ){
+            boolean pared = true;
+            while (pared == true){
+                int y = r.nextInt(temp.length);
+                int x = r.nextInt(temp.length);
+                if (temp [y][x] != ' ' && temp [y][x] != 'X'){
+                    char analysis = temp[y][x];
+                    for (int i = 0; i < jugadores_game.size() ; i++) {
+                        if (analysis == jugadores_game.get(i).getCaracter() ){
+                            System.out.println(bots_game.get(cont_bots).getCaracter() + " ha Eliminado " + jugadores_game.get(i).getName() );
+                            System.out.println(bots_game.get(cont_bots).getMuerte() );
+                            jugadores_game.remove(i);
+                        }
+                    }
+                }
+                if (temp[y][x] != 'X'){
+                    temp [y][x] = bots_game.get(cont_bots).getCaracter();
+                    pared = false;
+                    cont_bots++;
+                }
+            }
         }
         return temp;
     }
@@ -324,7 +343,7 @@ static Random r = new Random();
                 temp[i][j] = ' ';
             }
         }
-        int cant_walls = 0 + r.nextInt(30);
+        int cant_walls = 300 + r.nextInt(200);
         int cont_walls = 0;
         while (cont_walls < cant_walls) {
             int y = r.nextInt(temp.length);
